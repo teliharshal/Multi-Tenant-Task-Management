@@ -1,0 +1,38 @@
+
+spring:
+  application:
+    name: booking-system
+
+  datasource:
+    url: jdbc:h2:mem:taskdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: false
+    database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8080
+
+jwt:
+  secret: MySuperSecureJwtSecretKeyForTaskMgmt12345
+  expiration: 86400000
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
