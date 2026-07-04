@@ -1,7 +1,7 @@
 package com.example.taskmanagement.controller;
 
 import com.example.taskmanagement.dto.request.TenantRegisterRequest;
-import com.example.taskmanagement.dto.response.UserResponse;
+import com.example.taskmanagement.dto.response.TenantRegisterResponse;
 import com.example.taskmanagement.service.TenantService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +17,10 @@ public class TenantController {
     private final TenantService tenantService;
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> registerTenant(@Valid @RequestBody TenantRegisterRequest request) {
-        UserResponse response = tenantService.registerTenant(request);
+    public ResponseEntity<TenantRegisterResponse> registerTenant(
+            @Valid @RequestBody TenantRegisterRequest request) {
+
+        TenantRegisterResponse response = tenantService.registerTenant(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

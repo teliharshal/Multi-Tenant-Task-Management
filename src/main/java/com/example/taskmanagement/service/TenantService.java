@@ -1,11 +1,10 @@
 package com.example.taskmanagement.service;
 
 import com.example.taskmanagement.dto.request.TenantRegisterRequest;
-import com.example.taskmanagement.dto.response.UserResponse;
+import com.example.taskmanagement.dto.response.TenantRegisterResponse;
 import com.example.taskmanagement.entity.Tenant;
 import com.example.taskmanagement.entity.User;
 import com.example.taskmanagement.enums.Role;
-import com.example.taskmanagement.exception.BadRequestException;
 import com.example.taskmanagement.repository.TenantRepository;
 import com.example.taskmanagement.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,15 +21,7 @@ public class TenantService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserResponse registerTenant(TenantRegisterRequest request) {
-        if (tenantRepository.findByName(request.getTenantName()).isPresent()) {
-            throw new BadRequestException("Tenant with this name already exists");
-        }
-
-        if (userRepository.findByEmail(request.getAdminEmail()).isPresent()) {
-            throw new BadRequestException("Admin email already exists");
-        }
-
+    public TenantRegisterResponse registerTenant(TenantRegisterRequest request) {
         Tenant tenant = Tenant.builder()
                 .name(request.getTenantName())
                 .createdAt(LocalDateTime.now())
@@ -45,13 +36,13 @@ public class TenantService {
                 .tenant(tenant)
                 .build();
 
-        admin = userRepository.save(admin);
+        userRepository.save(admin);
 
-        return UserResponse.builder()
-                .id(admin.getId())
-                .email(admin.getEmail())
-                .role(admin.getRole())
+        return TenantRegisterResponse.builder()
                 .tenantId(tenant.getId())
+                .tenantName(tenant.getName())
+                .adminEmail(admin.getEmail())
+                .message("Tenant registered successfully")
                 .build();
     }
 }
