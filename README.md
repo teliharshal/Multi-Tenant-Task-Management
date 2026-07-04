@@ -1088,9 +1088,3 @@ This project ensures that:
 
 ---
 
-# Notes
-
-* This is a **backend-focused assignment**
-* UI is **not required**
-* Tenant isolation is the primary design goal of the application
-* All secured operations must be validated against the authenticated tenant context
